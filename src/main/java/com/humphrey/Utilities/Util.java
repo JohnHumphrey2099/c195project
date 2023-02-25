@@ -12,19 +12,6 @@ import java.time.*;
 
 public abstract class Util {
 
-    public static LocalDateTime convertLocalDateTimeToUTC(LocalDateTime ldt){
-        ZonedDateTime zonedDateTime = ldt.atZone(ZoneId.systemDefault());
-        ZonedDateTime utcZonedDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("UTC"));
-
-        return utcZonedDateTime.toLocalDateTime();
-    }
-
-    public static LocalDateTime convertUTCtoLocal(LocalDateTime utc){
-        ZonedDateTime zonedDateTime = utc.atZone(ZoneId.of("UTC"));
-        ZonedDateTime utcZonedDateTime = zonedDateTime.withZoneSameInstant(ZoneId.systemDefault());
-
-        return utcZonedDateTime.toLocalDateTime();
-    }
     public static void popUp(String title, String head, String body) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(title);
@@ -40,6 +27,7 @@ public abstract class Util {
             ZonedDateTime localZonedDateTime = estZonedDateTime.withZoneSameInstant(ZoneId.systemDefault());
             return localZonedDateTime.toLocalTime();
     }
+
     public static boolean checkConnection() {
         boolean isConnectionValid = true;
         if (JDBC.connection != null) {

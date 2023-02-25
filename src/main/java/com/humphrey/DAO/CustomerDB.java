@@ -24,9 +24,9 @@ public class CustomerDB {
         ps.setString(2, address);
         ps.setString(3, postalCode);
         ps.setString(4, phone);
-        ps.setTimestamp(5, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(createDate)));
+        ps.setTimestamp(5, Timestamp.valueOf(createDate));
         ps.setString(6, createdBy);
-        ps.setTimestamp(7,Timestamp.valueOf(Util.convertLocalDateTimeToUTC(lastUpdate)));
+        ps.setTimestamp(7,Timestamp.valueOf(lastUpdate));
         ps.setString(8, updatedBy);
         ps.setInt(9, divisionId);
         return ps.executeUpdate();
@@ -42,9 +42,9 @@ public class CustomerDB {
         ps.setString(2, address);
         ps.setString(3, postalCode);
         ps.setString(4, phone);
-        ps.setTimestamp(5, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(createDate)));
+        ps.setTimestamp(5, Timestamp.valueOf(createDate));
         ps.setString(6, createdBy);
-        ps.setTimestamp(7,Timestamp.valueOf(Util.convertLocalDateTimeToUTC(lastUpdate)));
+        ps.setTimestamp(7,Timestamp.valueOf(lastUpdate));
         ps.setString(8, updatedBy);
         ps.setInt(9, divisionId);
         ps.setInt(10, customerID);
@@ -63,9 +63,9 @@ public class CustomerDB {
             String address = rs.getString("Address");
             String postalCode = rs.getString("Postal_Code");
             String phone = rs.getString("Phone");
-            LocalDateTime createDate = Util.convertUTCtoLocal((rs.getTimestamp("Create_Date").toLocalDateTime()));
+            LocalDateTime createDate = (rs.getTimestamp("Create_Date").toLocalDateTime());
             String createdBy = rs.getString("Created_By");
-            LocalDateTime lastUpdateDate = Util.convertUTCtoLocal((rs.getTimestamp("Last_Update").toLocalDateTime()));
+            LocalDateTime lastUpdateDate = (rs.getTimestamp("Last_Update").toLocalDateTime());
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int divisionID = rs.getInt("Division_ID");
             String divisionName = rs.getString("Division");

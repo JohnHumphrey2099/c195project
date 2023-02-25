@@ -19,9 +19,9 @@ public abstract class UsersDB {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, userName);
         ps.setString(2, password);
-        ps.setTimestamp(3,Timestamp.valueOf(Util.convertLocalDateTimeToUTC(createDate)));
+        ps.setTimestamp(3,Timestamp.valueOf(createDate));
         ps.setString(4, userName);
-        ps.setTimestamp(5,Timestamp.valueOf(Util.convertLocalDateTimeToUTC(createDate)));
+        ps.setTimestamp(5,Timestamp.valueOf(createDate));
         ps.setString(6, userName);
         return ps.executeUpdate();
     }
@@ -35,9 +35,9 @@ public abstract class UsersDB {
             int userID = rs.getInt("User_ID");
             String userName = rs.getString("User_Name");
             String password = rs.getString("Password");
-            LocalDateTime createDate = Util.convertUTCtoLocal((rs.getTimestamp("Create_Date").toLocalDateTime()));
+            LocalDateTime createDate = (rs.getTimestamp("Create_Date").toLocalDateTime());
             String createdBy = rs.getString("Created_By");
-            LocalDateTime lastUpdateDate = Util.convertUTCtoLocal((rs.getTimestamp("Last_Update").toLocalDateTime()));
+            LocalDateTime lastUpdateDate = (rs.getTimestamp("Last_Update").toLocalDateTime());
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             User newUser = new User(userID, userName, password, createDate, createdBy, lastUpdateDate, lastUpdatedBy);
             userResults.add(newUser);

@@ -18,14 +18,13 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ReportScreenController implements Initializable {
-    private static User currentUser;
 
     @FXML
     private TableView appointmentsTable;
     @FXML
     private TableColumn monthColumn;
     @FXML
-    private  TableColumn monthTotalColumn;
+    private TableColumn monthTotalColumn;
     @FXML
     private TableView contactTable;
     @FXML
@@ -50,6 +49,8 @@ public class ReportScreenController implements Initializable {
     private TableColumn countryColumn;
     @FXML
     private TableColumn divColumn;
+    @FXML
+    private TableColumn typeColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,6 +61,7 @@ public class ReportScreenController implements Initializable {
                 throw new RuntimeException(e);
             }
             monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
+            typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             monthTotalColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
             try {
                 contactCombo.setItems(ContactsDB.queryContactDB());
@@ -93,9 +95,7 @@ public class ReportScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    public static void setCurrentUser(User user){
-        currentUser = user;
-    }
+
     @FXML
     private void comboAction(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {

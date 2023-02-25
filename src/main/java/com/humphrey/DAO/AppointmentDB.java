@@ -26,11 +26,11 @@ public class AppointmentDB {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(start)));
-        ps.setTimestamp(6, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(end)));
-        ps.setTimestamp(7, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(createDate)));
+        ps.setTimestamp(5, Timestamp.valueOf(start));
+        ps.setTimestamp(6, Timestamp.valueOf(end));
+        ps.setTimestamp(7, Timestamp.valueOf(createDate));
         ps.setString(8, createdBy);
-        ps.setTimestamp(9, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(lastUpdate)));
+        ps.setTimestamp(9, Timestamp.valueOf(lastUpdate));
         ps.setString(10, lastUpdatedBy);
         ps.setInt(11, customerID);
         ps.setInt(12, userID);
@@ -48,9 +48,9 @@ public class AppointmentDB {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(start)));
-        ps.setTimestamp(6, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(end)));
-        ps.setTimestamp(7, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(lastUpdate)));
+        ps.setTimestamp(5, Timestamp.valueOf(start));
+        ps.setTimestamp(6, Timestamp.valueOf(end));
+        ps.setTimestamp(7, Timestamp.valueOf(lastUpdate));
         ps.setString(8, lastUpdatedBy);
         ps.setInt(9, customerID);
         ps.setInt(10, userID);
@@ -74,11 +74,11 @@ public class AppointmentDB {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            LocalDateTime start = Util.convertUTCtoLocal((rs.getTimestamp("Start").toLocalDateTime()));
-            LocalDateTime end = Util.convertUTCtoLocal((rs.getTimestamp("End").toLocalDateTime()));
-            LocalDateTime createDate = Util.convertUTCtoLocal((rs.getTimestamp("Create_Date").toLocalDateTime()));
+            LocalDateTime start = (rs.getTimestamp("Start").toLocalDateTime());
+            LocalDateTime end = (rs.getTimestamp("End").toLocalDateTime());
+            LocalDateTime createDate = (rs.getTimestamp("Create_Date").toLocalDateTime());
             String createdBy = rs.getString("Created_By");
-            LocalDateTime lastUpdateDate = Util.convertUTCtoLocal((rs.getTimestamp("Last_Update").toLocalDateTime()));
+            LocalDateTime lastUpdateDate = (rs.getTimestamp("Last_Update").toLocalDateTime());
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int customerID = rs.getInt("Customer_ID");
             int userID = rs.getInt("User_ID");
@@ -120,8 +120,8 @@ public class AppointmentDB {
                 "inner join customers on appointments.Customer_ID = customers.Customer_ID inner join " +
                 "users on appointments.User_ID = users.User_ID WHERE Appointments.Start BETWEEN ? AND ?;";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setTimestamp(1, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(ldt1)));
-        ps.setTimestamp(2, Timestamp.valueOf(Util.convertLocalDateTimeToUTC(ldt2)));
+        ps.setTimestamp(1, Timestamp.valueOf(ldt1));
+        ps.setTimestamp(2, Timestamp.valueOf(ldt2));
         ResultSet rs = ps.executeQuery();
         ObservableList<Appointment> results = FXCollections.observableArrayList();
         while (rs.next()) {
@@ -131,11 +131,11 @@ public class AppointmentDB {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            LocalDateTime start = Util.convertUTCtoLocal((rs.getTimestamp("Start").toLocalDateTime()));
-            LocalDateTime end = Util.convertUTCtoLocal((rs.getTimestamp("End").toLocalDateTime()));
-            LocalDateTime createDate = Util.convertUTCtoLocal((rs.getTimestamp("Create_Date").toLocalDateTime()));
+            LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+            LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
             String createdBy = rs.getString("Created_By");
-            LocalDateTime lastUpdateDate = Util.convertUTCtoLocal((rs.getTimestamp("Last_Update").toLocalDateTime()));
+            LocalDateTime lastUpdateDate = rs.getTimestamp("Last_Update").toLocalDateTime();
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int customerID = rs.getInt("Customer_ID");
             int userID = rs.getInt("User_ID");
@@ -165,11 +165,11 @@ public class AppointmentDB {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            LocalDateTime start = Util.convertUTCtoLocal((rs.getTimestamp("Start").toLocalDateTime()));
-            LocalDateTime end = Util.convertUTCtoLocal((rs.getTimestamp("End").toLocalDateTime()));
-            LocalDateTime createDate = Util.convertUTCtoLocal((rs.getTimestamp("Create_Date").toLocalDateTime()));
+            LocalDateTime start = (rs.getTimestamp("Start").toLocalDateTime());
+            LocalDateTime end = (rs.getTimestamp("End").toLocalDateTime());
+            LocalDateTime createDate = (rs.getTimestamp("Create_Date").toLocalDateTime());
             String createdBy = rs.getString("Created_By");
-            LocalDateTime lastUpdateDate = Util.convertUTCtoLocal((rs.getTimestamp("Last_Update").toLocalDateTime()));
+            LocalDateTime lastUpdateDate = (rs.getTimestamp("Last_Update").toLocalDateTime());
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int customerID = rs.getInt("Customer_ID");
             int userID = rs.getInt("User_ID");
@@ -185,16 +185,17 @@ public class AppointmentDB {
     }
     public static ObservableList<MonthReport> appointmentsByMonth() throws SQLException {
         ObservableList<MonthReport> results = FXCollections.observableArrayList();
-        String sql = "SELECT MONTHNAME(Start), COUNT(*) FROM appointments GROUP BY monthname(Start);";
+        String sql = "SELECT MONTHNAME(Start), type, COUNT(*) FROM appointments GROUP BY monthname(Start), type;";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
 
             String month = rs.getString("MONTHNAME(Start)");
+            String type = rs.getString("type");
             int count = rs.getInt("COUNT(*)");
 
 
-            MonthReport report = new MonthReport(month, count);
+            MonthReport report = new MonthReport(month, type, count);
             results.add(report);
         }
         return results;
