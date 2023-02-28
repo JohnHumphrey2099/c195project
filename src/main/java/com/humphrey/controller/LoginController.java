@@ -35,19 +35,47 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The Controller class for the Login screen.
+ */
 public class LoginController implements Initializable {
+    /**
+     * List to hold the user table query.
+     */
     private ObservableList<User> userQuery = FXCollections.observableArrayList();
+    /**
+     * Text field to get the username.
+     */
     @FXML
     private TextField userNameField;
+    /**
+     * Text field to get the password.
+     */
     @FXML
     private TextField passwordField;
+    /**
+     * Anchorpane used to snap focus.
+     */
     @FXML
     private AnchorPane anchorPane;
+    /**
+     * Label to show the user's location based on timezone.
+     */
     @FXML
     private Label locationLabel;
 
+    /**
+     * Flag to check whether there is an appointment scheduled within 15 minutes of the user's log-in.
+     */
     private Appointment appointmentSoon = null;
 
+    /** Loads the Login screen if the connection to the database is valid.
+     * Queries the users table and assigns the results to userQuery.
+     * Also gets the system's time zone.
+     *
+     * @param url url
+     * @param resourceBundle resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(JDBC.connection != null) {
@@ -66,6 +94,14 @@ public class LoginController implements Initializable {
             }
     }
 
+    /**
+     * Validates the user's log-in data. Provides a localized language alert if the data can't be validated.
+     * Loads the main menu if the data is valid. Also sets the current user variable in other screen controllers.
+     * Checks to see if there is an appointment scheduled within 15 minutes of the user's log in.
+     * @param actionEvent Button press.
+     * @throws IOException IOException
+     * @throws SQLException SQLException
+     */
     @FXML
     private void loginButton(ActionEvent actionEvent) throws IOException, SQLException {
         ResourceBundle bundle = ResourceBundle.getBundle("/Nat", Locale.getDefault());
@@ -118,6 +154,11 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Creates a text file log of the log-in attempts. Includes username, the time, and the status.
+     * @param userName The entered username.
+     * @param loginStatus The status of the log-in attempt.
+     */
     private void loginLog(String userName, String loginStatus) {
         try {
             File log = new File("login_activity.txt");

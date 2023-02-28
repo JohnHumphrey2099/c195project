@@ -1,30 +1,22 @@
 package com.humphrey.DAO;
 
-import com.humphrey.Utilities.Util;
 import com.humphrey.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * The DAO class that operates on the Users table in the database.
+ */
 public abstract class UsersDB {
-
-    public static int insert(String userName, String password, LocalDateTime createDate, String createdBy) throws SQLException {
-
-        String sql = "INSERT INTO USERS (User_Name, Password, Create_Date, Created_By, Last_Update, Last_Updated_By) VALUES(?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, userName);
-        ps.setString(2, password);
-        ps.setTimestamp(3,Timestamp.valueOf(createDate));
-        ps.setString(4, userName);
-        ps.setTimestamp(5,Timestamp.valueOf(createDate));
-        ps.setString(6, userName);
-        return ps.executeUpdate();
-    }
+    /**
+     * Returns a list of all rows in the users table.
+     * @return the list of all rows in the users table.
+     * @throws SQLException SQLException
+     */
     public static ObservableList<User> queryUsersDB()throws SQLException {
         ObservableList<User> userResults = FXCollections.observableArrayList();
         String sql = "SELECT * FROM USERS";
@@ -45,17 +37,5 @@ public abstract class UsersDB {
         return userResults;
 
     }
-    public static String getUserNameFromID(int id) throws SQLException {
 
-        String sql = "SELECT User_Name FROM USERS WHERE User_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        String userName = null;
-        while (rs.next()) {
-            userName = rs.getString("User_Name");
-        }
-        return userName;
-
-    }
 }

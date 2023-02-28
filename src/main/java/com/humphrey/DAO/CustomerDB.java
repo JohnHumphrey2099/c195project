@@ -12,9 +12,24 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-
+/**
+ * The DAO class that operates on the Customers table in the database.
+ */
 public class CustomerDB {
-
+    /**
+     * Creates a new entry in the customers table.
+     * @param customerName The name of the customer.
+     * @param address The address of the customer.
+     * @param postalCode The postal code of the customer.
+     * @param phone The phone number of the customer.
+     * @param createDate Today's date.
+     * @param createdBy The current user.
+     * @param lastUpdate Today's date.
+     * @param updatedBy The current user.
+     * @param divisionId the division ID of the customer.
+     * @return The "Execute Update" statement. Returns the number of rows affected.
+     * @throws SQLException SQLException
+     */
     public static int addNewCustomer(String customerName, String address, String postalCode, String phone,
                                      LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String updatedBy, int divisionId) throws SQLException {
 
@@ -32,6 +47,21 @@ public class CustomerDB {
         return ps.executeUpdate();
     }
 
+    /**
+     * Updates an entry in the customers table.
+     * @param customerID The id of the customer to be updated.
+     * @param customerName The name of the customer.
+     * @param address The address of the customer.
+     * @param postalCode The postal code of the customer.
+     * @param phone The phone number of the customer.
+     * @param createDate The original create date.
+     * @param createdBy The original created by.
+     * @param lastUpdate Today's date.
+     * @param updatedBy The currently logged-in user.
+     * @param divisionId The division id.
+     * @return The Execute Update statement. Returns the number of rows affected.
+     * @throws SQLException SQLException
+     */
     public static int updateCustomer(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime createDate,
                                      String createdBy, LocalDateTime lastUpdate, String updatedBy, int divisionId) throws SQLException {
 
@@ -50,6 +80,12 @@ public class CustomerDB {
         ps.setInt(10, customerID);
         return ps.executeUpdate();
     }
+
+    /**
+     * Returns a list of all rows in the customer table.
+     * @return The list of all rows in the customer table.
+     * @throws SQLException SQLException
+     */
     public static ObservableList<Customer> queryCustomersDB() throws SQLException {
         ObservableList<Customer> customerResults = FXCollections.observableArrayList();
         String sql = "SELECT customers.*, first_level_divisions.Division, countries.Country FROM customers INNER JOIN first_level_divisions ON customers.Division_ID = " +
@@ -77,6 +113,12 @@ public class CustomerDB {
 
     }
 
+    /**
+     * Deletes a customer that matches a given customer ID.
+     * @param customerID The customer id of the customer to delete.
+     * @return The "Execute Update" statement. Returns the number of rows affected.
+     * @throws SQLException SQLException
+     */
     public static int deleteCustomer(int customerID) throws SQLException {
         String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -85,30 +127,4 @@ public class CustomerDB {
 
     }
 
-    public static String getCustomerNameFromID(int id) throws SQLException {
-
-        String sql = "SELECT Customer_Name FROM CUSTOMERS WHERE Customer_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        String name = null;
-        while (rs.next()) {
-            name = rs.getString("Customer_Name");
-        }
-        return name;
-
-    }
-    public static String getCustomerIDFromName(String name) throws SQLException {
-
-        String sql = "SELECT Customer_ID FROM CUSTOMERS WHERE Customer_Name LIKE ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, name);
-        ResultSet rs = ps.executeQuery();
-        int id = 0;
-        while (rs.next()) {
-            id = rs.getInt("Customer_Id");
-        }
-        return name;
-
-    }
 }

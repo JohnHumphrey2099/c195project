@@ -9,9 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * The DAO class that operates on the Countries table in the database.
+ */
 public abstract class CountriesDB {
-
+    /**
+     * Gets a list of all rows in the countries table.
+     * @return The list of all rows in the countries table.
+     * @throws SQLException SQLException
+     */
     public static ObservableList<Country> queryCountriesDB()throws SQLException {
         ObservableList<Country> countryResults = FXCollections.observableArrayList();
         String sql = "SELECT * FROM COUNTRIES";
@@ -27,6 +33,12 @@ public abstract class CountriesDB {
         }
         return countryResults;
     }
+
+    /**
+     * Gets a list of countries and how many first level divisions each has.
+     * @return The list of countries and how many first level divisions each has.
+     * @throws SQLException SQLException
+     */
     public static ObservableList<CountryReport> countryReport() throws SQLException {
         ObservableList<CountryReport> results = FXCollections.observableArrayList();
         String sql = "Select divs.Country, count(*) FROM ( Select first_level_divisions.Division, countries.Country " +

@@ -25,60 +25,60 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ResourceBundle;
 /**
- * Controller for Appointments Screen
+ * Controller for Appointments Screen.
  * */
 public class AppointmentsScreenController implements Initializable {
     /**
-     * Table that shows appointments
+     * Table that shows appointments.
      */
     @FXML
     private TableView appointmentsTable;
     /**
-     * Column that holds appointment data
+     * Column that holds appointment data.
      */
     @FXML
     private TableColumn idColumn, titleColumn, descriptionColumn, locationColumn, contactColumn, typeColumn, startColumn, endColumn, customerColumn, userColumn;
     /**
-     * Field to get appointment data from user
+     * Field to get appointment data from user.
      */
     @FXML
     private TextField idField, titleField, descriptionField, locationField, typeField;
     /**
-     * Dropdown menu that holds a list of users to choose from
+     * Dropdown menu that holds a list of users to choose from.
      */
     @FXML
     private ComboBox<User> userCombo;
     /**
-     * Dropdown menu that holds a list of contacts to choose from
+     * Dropdown menu that holds a list of contacts to choose from.
      */
     @FXML
     private ComboBox<Contact> contactCombo;
     /**
-     * Dropdown menu that holds a list of customers to choose from
+     * Dropdown menu that holds a list of customers to choose from.
      */
     @FXML
     private ComboBox<Customer> customerCombo;
     /**
-     * Dropdown menu that holds a list of times to choose from
+     * Dropdown menu that holds a list of times to choose from.
      */
     @FXML
     private ComboBox<LocalTime> startTime, endTime;
     /**
-     * Lets the user choose a date for their appointment
+     * Lets the user choose a date for their appointment.
      */
     @FXML private DatePicker datePicker;
     /**
-     * Holds the user object for the current logged-in user
+     * Holds the user object for the current logged-in user.
      */
     @FXML
     private static User currentUser;
     /**
-     * A flag to show whether there is an appointment being currently edited
+     * A flag to show whether there is an appointment being currently edited.
      */
     @FXML
     boolean appointmentIsNew;
     /**
-     * The selected appointment to be edited
+     * The selected appointment to be edited.
      */
     @FXML
     Appointment selectedAppointment;
@@ -142,8 +142,8 @@ public class AppointmentsScreenController implements Initializable {
 
     /**
      * Launches the main menu screen upon button click.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent The button click.
+     * @throws IOException IOException
      */
     @FXML
     private void backButton(ActionEvent actionEvent) throws IOException {
@@ -157,9 +157,20 @@ public class AppointmentsScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Sets the variable to hold the object of the user currently logged in.
+     * @param user the current user
+     */
     public static void setCurrentUser(User user){
         currentUser = user;
     }
+
+    /**
+     * Saves the user entered data as a new appointment.
+     * @param actionEvent The button click.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
     @FXML
     private void saveNewButton(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {
@@ -217,6 +228,12 @@ public class AppointmentsScreenController implements Initializable {
             }
         }
     }
+
+    /**
+     * Reloads the Appointments screen to in order to clear the data fields.
+     * @param actionEvent The button click.
+     * @throws IOException IOException
+     */
     @FXML
     private void clearButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/humphrey/view/AppointmentsScreen.fxml"));
@@ -228,6 +245,12 @@ public class AppointmentsScreenController implements Initializable {
         selectedAppointment = null;
         appointmentIsNew = true;
     }
+
+    /**
+     * Populates the user-input fields and comboboxes with data from the selected appointment.
+     * @param actionEvent The button click.
+     * @throws IOException IOException
+     */
     @FXML
     private void editButton(ActionEvent actionEvent) throws IOException {
         if(Util.checkConnection()) {
@@ -276,6 +299,13 @@ public class AppointmentsScreenController implements Initializable {
             goToMain();
         }
     }
+
+    /**
+     * Deletes the currently selected appointment.
+     * @param actionEvent The button click.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
     @FXML
     private void deleteButton(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {
@@ -300,6 +330,13 @@ public class AppointmentsScreenController implements Initializable {
             goToMain();
         }
     }
+
+    /**
+     * Radio button which displays all appointments in the appointments table.
+     * @param actionEvent The button click.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
     @FXML
     private void radioAll(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {
@@ -324,6 +361,13 @@ public class AppointmentsScreenController implements Initializable {
         }
 
     }
+
+    /**
+     *Radio button which displays all appointments for the current week in the appointments table.
+     * @param actionEvent The button click.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
     @FXML
     private void radioWeek(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {
@@ -351,6 +395,13 @@ public class AppointmentsScreenController implements Initializable {
         }
 
     }
+    /**
+     *Radio button which displays all appointments for the current month in the appointments table.
+     * @param actionEvent The button click.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
+
     @FXML
     private void radioMonth(ActionEvent actionEvent) throws SQLException,IOException {
         if(Util.checkConnection()) {
@@ -379,6 +430,15 @@ public class AppointmentsScreenController implements Initializable {
 
 
     }
+
+    /**
+     * Updates the appointment that is currently being edited. Contains the lambda "lambda" which uses the funcitonal interface isOverlapping.
+     * The lambda contains the logic used to determine if an appointment is overlapping with any existing appointment.
+     *
+     * @param actionEvent The button click.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
     @FXML
     private void saveChangesButton(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {
@@ -444,6 +504,12 @@ public class AppointmentsScreenController implements Initializable {
             }
         }
     }
+
+    /**
+     * Generates a list of times between the EST office hours. Contains the lambda "l2" which uses the functional interface Util.lambdaTwo.
+     * The "l2" lambda holds the method call to convert a given time (t) from the timezone EST to the local time zone.
+     * @return The list of times.
+     */
     private ObservableList<LocalTime> generateAppointmentTimes(){
         ObservableList<LocalTime> timeList = FXCollections.observableArrayList();
         LocalTime startingTime = LocalTime.of(8, 0);
@@ -461,6 +527,11 @@ public class AppointmentsScreenController implements Initializable {
         }
         return timeList;
     }
+
+    /**
+     * Validates all form data.
+     * @return True if data is valid.
+     */
     private boolean dataValidation(){
         boolean dataValid = true;
         if(titleField.getText() != null && !((titleField.getText()).trim().isEmpty())){
@@ -544,6 +615,11 @@ public class AppointmentsScreenController implements Initializable {
 
         return dataValid;
     }
+
+    /**
+     * Launches the main menu screen.
+     * @throws IOException IOException
+     */
     private void goToMain() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/humphrey/view/MainMenu.fxml"));
         Stage stage = (Stage) (typeField.getScene().getWindow());
@@ -552,6 +628,10 @@ public class AppointmentsScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * Interface to be used with a lambda for checking if an appointment overlaps with any existing appointment.
+     */
     @FunctionalInterface
     public interface isOverlapping{
        boolean check(LocalDateTime start1, LocalDateTime end1, LocalDateTime start2, LocalDateTime end2);

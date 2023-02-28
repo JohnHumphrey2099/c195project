@@ -11,7 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * The DAO class that operates on the Contacts table in the database.
+ */
 public abstract class ContactsDB {
+    /**
+     * Gets all rows from the contacts table.
+     * @return The list of all rows from the contacts table.
+     * @throws SQLException SQLException.
+     */
     public static ObservableList<Contact> queryContactDB() throws SQLException {
         ObservableList<Contact> results = FXCollections.observableArrayList();
         String sql = "SELECT * FROM Contacts;";

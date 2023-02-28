@@ -17,41 +17,96 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * The controller class for the Reports Screen
+ */
 public class ReportScreenController implements Initializable {
-
+    /**
+     * Table to show total appointments by month and type.
+     */
     @FXML
     private TableView appointmentsTable;
+    /**
+     * Column in the appointments totals table.
+     */
     @FXML
     private TableColumn monthColumn;
+    /**
+     * Column in the appointments totals table.
+     */
     @FXML
     private TableColumn monthTotalColumn;
+    /**
+     * Table to show schedule for contacts.
+     */
     @FXML
     private TableView contactTable;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn idCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn titleCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn typeCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn descCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn startCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn endCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private TableColumn customerCol;
+    /**
+     * Column in the contacts schedule table.
+     */
     @FXML
     private ComboBox<Contact> contactCombo;
+    /**
+     * Table to show total first level divisions by country.
+     */
     @FXML
     private TableView countryTable;
+    /**
+     * Column in the first level divisions totals table.
+     */
     @FXML
     private TableColumn countryColumn;
+    /**
+     * Column in the first level divisions totals table.
+     */
     @FXML
     private TableColumn divColumn;
+    /**
+     * Column in the first level divisions totals table.
+     */
     @FXML
     private TableColumn typeColumn;
 
+    /**
+     * Populates the reports tables.
+     * @param url url
+     * @param resourceBundle resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(Util.checkConnection()) {
@@ -85,6 +140,11 @@ public class ReportScreenController implements Initializable {
         }
     }
 
+    /**
+     * Loads the main menu.
+     * @param actionEvent Button click.
+     * @throws IOException IOException
+     */
 
     @FXML
     private void backButton(ActionEvent actionEvent) throws IOException {
@@ -96,6 +156,12 @@ public class ReportScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Populates the schedule table when a contact is selected.
+     * @param actionEvent Contact selected.
+     * @throws SQLException SQLException
+     * @throws IOException IOException
+     */
     @FXML
     private void comboAction(ActionEvent actionEvent) throws SQLException, IOException {
         if(Util.checkConnection()) {
@@ -114,6 +180,11 @@ public class ReportScreenController implements Initializable {
             goToMain();
         }
     }
+
+    /**
+     * Loads the main menu.
+     * @throws IOException IOException
+     */
     private void goToMain() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/humphrey/view/MainMenu.fxml"));
         Stage stage = (Stage) (contactTable.getScene().getWindow());

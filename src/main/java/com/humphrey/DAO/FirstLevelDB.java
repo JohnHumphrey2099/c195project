@@ -8,7 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The DAO class that operates on the First Level Divisions table.
+ */
 public abstract class FirstLevelDB {
+    /**
+     * Returns a list of all rows in the first level divisions table.
+     * @return The list of all rows in the first level divisions table.
+     * @throws SQLException SQLException
+     */
     public static ObservableList<FirstLevelDivision> queryFirstLevelDB() throws SQLException {
         ObservableList<FirstLevelDivision> divisionResults = FXCollections.observableArrayList();
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";

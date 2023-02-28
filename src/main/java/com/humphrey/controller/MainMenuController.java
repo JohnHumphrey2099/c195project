@@ -13,15 +13,24 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
+/**
+ * The controller class for the main menu screen.
+ */
 public class MainMenuController {
-
-    public static User currentUser;
-
+    /**
+     * Closes the application
+     * @param actionEvent Button click.
+     */
     @FXML
     private void exitButton(ActionEvent actionEvent){
         Platform.exit();
     }
+
+    /**
+     * Loads the customers screen.
+     * @param actionEvent Button click.
+     * @throws IOException IOException
+     */
     @FXML
     private void customersButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/humphrey/view/CustomersScreen.fxml"));
@@ -31,6 +40,11 @@ public class MainMenuController {
         stage.setScene(scene);
         stage.show();
     }
+    /**
+     * Loads the appointments screen.
+     * @param actionEvent Button click.
+     * @throws IOException IOException
+     */
 
     @FXML
     private void appointmentsButton(ActionEvent actionEvent) throws IOException {
@@ -41,6 +55,11 @@ public class MainMenuController {
         stage.setScene(scene);
         stage.show();
     }
+    /**
+     * Loads the reports screen.
+     * @param actionEvent Button click.
+     * @throws IOException IOException
+     */
 
     @FXML
     private void reportsButton(ActionEvent actionEvent) throws IOException {

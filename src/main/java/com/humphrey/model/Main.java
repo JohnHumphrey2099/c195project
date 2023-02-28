@@ -1,26 +1,24 @@
 package com.humphrey.model;
 //
 import com.humphrey.DAO.JDBC;
-import com.humphrey.Utilities.Util;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Main class.
+ */
 public class Main extends Application {
+    /**
+     * Loads the Login screen.
+     * @param stage The stage to set.
+     * @throws IOException IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("/Nat", Locale.getDefault());
@@ -31,6 +29,11 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * The main method. Opens a connection to the database and launches the JavaFX start method. Closes the connection when the program is finished.
+     * @param args Arguments.
+     * @throws SQLException SQLException
+     */
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
         launch();

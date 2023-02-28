@@ -1,21 +1,24 @@
 Title: Customer Appointment Manager
+
 The purpose of this application is to allow users to create, save, and manage customers and their appointments.
 Author: John Humphrey
 Contact: jhump98@wgu.edu
 Application Version 1.0
-Date 2/23/2023
+Date 2/27/2023
 IntelliJ Community 2022.2
 Java 17.0.5
 JavaFX-SDK 17.0.2
 mysql:mysql-connector-java-8.0.30
-Additional report: A total of the first level divisions for each country.
-Lambda Locations: AppointmentScreenController.generateAppointmentTimes() / AppointmentScreenController.saveNewButton()
+Additional report: This report shows the total first level divisions for each country in the database.
+Lambda Locations: AppointmentScreenController.generateAppointmentTimes() and AppointmentScreenController.saveNewButton()
 
-Directions
+Directions:
 
-Log-in and Main Menu Screens:
 After extracting the zip file to your chosen location, import the project into your IDE.
 Run the project using an “Application” Run / Debug configuration.
+
+Log-in and Main Menu Screens:
+
 Enter “test” in both the username and password fields,  then click the “log-in” button to log in.
 You should see the main menu with buttons to go to the Customers screen, the Appointments screen, the Reports screen, along with the exit button which will close the application.
 
