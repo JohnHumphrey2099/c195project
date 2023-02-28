@@ -166,7 +166,8 @@ public class AppointmentsScreenController implements Initializable {
     }
 
     /**
-     * Saves the user entered data as a new appointment.
+     * Saves the user entered data as a new appointment. Contains the lambda "lambda" which uses the funcitonal interface isOverlapping.
+     * The lambda contains the logic used to determine if an appointment is overlapping with any existing appointment.
      * @param actionEvent The button click.
      * @throws SQLException SQLException
      * @throws IOException IOException
