@@ -17,7 +17,7 @@ public abstract class JDBC {
     /**
      * The location.
      */
-    private static final String location = "//localHost/"; //"//192.168.0.132/"
+    private static final String location = "//localHost/";
     /**
      * The name of the database.
      */

@@ -314,7 +314,7 @@ public class AppointmentsScreenController implements Initializable {
             if (!(selectedAppointment == null)) {
                 int id = selectedAppointment.getAppointmentID();
                 AppointmentDB.deleteAppointmentByID(id);
-                Util.popUp("Success", "Success", "Appointment ID" + id + " Deleted. Type:" + " " + selectedAppointment.getAppointmentType());
+                Util.popUp("Success", "Success", "Appointment ID " + id + " Deleted. Type:" + " " + selectedAppointment.getAppointmentType());
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/humphrey/view/AppointmentsScreen.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
@@ -452,7 +452,7 @@ public class AppointmentsScreenController implements Initializable {
                     }
                 } catch (Error e) {
                 }
-                dataValid = dataValidation();
+                dataValid = dataValidationEditingAppointment();
                 LocalDateTime appointmentStart;
                 LocalDateTime appointmentEnd;
                 LocalDateTime lastUpdated = LocalDateTime.now();
@@ -539,7 +539,7 @@ public class AppointmentsScreenController implements Initializable {
 
         }
         else{
-            Util.popUp("Error", "Error", "Title Field is Empty. Cannot Save");
+            Util.popUp("Error", "Error", "Title Field is Empty. Not Saved");
             dataValid = false;
         }
         if(dataValid){
@@ -547,7 +547,7 @@ public class AppointmentsScreenController implements Initializable {
 
             }
             else{
-                Util.popUp("Error", "Error", "Description Field is Empty. Cannot Save");
+                Util.popUp("Error", "Error", "Description Field is Empty. Not Saved");
                 dataValid = false;
             }
         }
@@ -556,7 +556,7 @@ public class AppointmentsScreenController implements Initializable {
 
             }
             else {
-                Util.popUp("Error", "Error", "Location Field is Empty. Cannot Save");
+                Util.popUp("Error", "Error", "Location Field is Empty. Not Saved");
                 dataValid = false;
             }
         }
@@ -565,24 +565,112 @@ public class AppointmentsScreenController implements Initializable {
 
             }
             else{
-                Util.popUp("Error", "Error", "Type Field is Empty. Cannot Save" ); dataValid = false;
+                Util.popUp("Error", "Error", "Type Field is Empty. Not Saved" ); dataValid = false;
+            }
+        }
+        if(dataValid) {
+            if (datePicker.getValue() != null) {
+                if (datePicker.getValue().isBefore(LocalDate.now())) {
+                    Util.popUp("Error", "Error", "The chosen appointment date cannot be before today. Not Saved.");
+                    dataValid = false;
+                }
+                else {
+                    if (startTime.getValue() != null && endTime.getValue() != null) {
+                        if ((LocalDateTime.of(datePicker.getValue(), startTime.getValue())).isAfter((LocalDateTime.of(datePicker.getValue(), endTime.getValue())))) {
+                            Util.popUp("Error", "Error", "End Time cannot be Before Start Time. Not Saved.");
+                            dataValid = false;
+                        }
+                    } else {
+                        Util.popUp("Error", "Error", "Start and End Times are not selected. Not Saved");
+                        dataValid = false;
+                    }
+                }
+            }
+            else{
+                Util.popUp("Error", "Error", "No Date Selected. Not Saved");
+                dataValid = false;
+            }
+        }
+        if(dataValid){
+            if (customerCombo.getValue() != null){
+
+            }
+            else{
+                Util.popUp("Error", "Error", " No Customer Selected. Not Saved");
+                dataValid = false;
+            }
+        }
+        if(dataValid) {
+            if (userCombo.getValue() != null) {
+
+            }
+            else {
+                Util.popUp("Error", "Error", "No User Selected. Not Saved");
+                dataValid = false;
+            }
+        }
+        if(dataValid){
+            if (customerCombo.getValue() != null){
+
+            }
+            else{
+                Util.popUp("Error", "Error", "No Contact Selected. Not Saved");
+                dataValid = false;
+            }
+        }
+
+        return dataValid;
+    }
+
+    private boolean dataValidationEditingAppointment(){
+        boolean dataValid = true;
+        if(titleField.getText() != null && !((titleField.getText()).trim().isEmpty())){
+
+        }
+        else{
+            Util.popUp("Error", "Error", "Title Field is Empty. Not Saved");
+            dataValid = false;
+        }
+        if(dataValid){
+            if(descriptionField.getText() != null && !((descriptionField.getText()).trim().isEmpty())){
+
+            }
+            else{
+                Util.popUp("Error", "Error", "Description Field is Empty. Not Saved");
+                dataValid = false;
+            }
+        }
+        if(dataValid) {
+            if (locationField.getText() != null && !((locationField.getText()).trim().isEmpty())) {
+
+            }
+            else {
+                Util.popUp("Error", "Error", "Location Field is Empty. Not Saved");
+                dataValid = false;
+            }
+        }
+        if(dataValid){
+            if (typeField.getText() != null && !((typeField.getText()).trim().isEmpty())){
+
+            }
+            else{
+                Util.popUp("Error", "Error", "Type Field is Empty. Not Saved" ); dataValid = false;
             }
         }
         if(dataValid) {
             if (datePicker.getValue() != null) {
                 if (startTime.getValue() != null && endTime.getValue() != null) {
                     if ((LocalDateTime.of(datePicker.getValue(), startTime.getValue())).isAfter((LocalDateTime.of(datePicker.getValue(), endTime.getValue())))) {
-                        Util.popUp("Error", "Error", "End Time cannot be Before Start Time. Cannot Save.");
+                        Util.popUp("Error", "Error", "End Time cannot be Before Start Time. Not Saved.");
                         dataValid = false;
                     }
-                }
-                else {
-                    Util.popUp("Error", "Error", "Start and End Times are not selected. Cannot Save");
+                } else {
+                    Util.popUp("Error", "Error", "Start and End Times are not selected. Not Saved");
                     dataValid = false;
                 }
             }
             else{
-                Util.popUp("Error", "Error", "No Date Selected. Cannot Save");
+                Util.popUp("Error", "Error", "No Date Selected. Not Saved");
                 dataValid = false;
             }
         }
@@ -591,16 +679,16 @@ public class AppointmentsScreenController implements Initializable {
 
             }
             else{
-                Util.popUp("Error", "Error", " No Customer Selected. Cannot Save");
+                Util.popUp("Error", "Error", " No Customer Selected. Not Saved");
                 dataValid = false;
             }
         }
-        if(dataValid){
-            if (userCombo.getValue() != null){
+        if(dataValid) {
+            if (userCombo.getValue() != null) {
 
             }
-            else{
-                Util.popUp("Error", "Error", "No User Selected. Cannot Save");
+            else {
+                Util.popUp("Error", "Error", "No User Selected. Not Saved");
                 dataValid = false;
             }
         }
@@ -609,7 +697,7 @@ public class AppointmentsScreenController implements Initializable {
 
             }
             else{
-                Util.popUp("Error", "Error", "No Contact Selected. Cannot Save");
+                Util.popUp("Error", "Error", "No Contact Selected. Not Saved");
                 dataValid = false;
             }
         }
