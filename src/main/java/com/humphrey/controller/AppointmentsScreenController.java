@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 /**
  * Controller for Appointments Screen.
@@ -82,6 +83,8 @@ public class AppointmentsScreenController implements Initializable {
      */
     @FXML
     Appointment selectedAppointment;
+    @FXML
+    TextField searchBar;
 
     /**
      * Initializes the Appointments Screen.
@@ -724,6 +727,53 @@ public class AppointmentsScreenController implements Initializable {
     @FunctionalInterface
     public interface isOverlapping{
        boolean check(LocalDateTime start1, LocalDateTime end1, LocalDateTime start2, LocalDateTime end2);
+    }
+    @FXML
+    private void appointmentSearch(ActionEvent actionEvent) throws IOException, SQLException {
+        String s = searchBar.getText();
+        ObservableList<Appointment> searchResult = FXCollections.observableArrayList();
+        Appointment searchAppointment = null;
+
+        try {
+            int num = Integer.parseInt(s);
+            searchAppointment = lookupAppointment(num);
+            if(searchAppointment == null){
+
+            }
+            else {
+                searchResult.add(searchAppointment);
+            }
+        }
+        catch (Exception e){
+            searchResult = lookupAppointment(s);
+        }
+        appointmentsTable.setItems(searchResult);
+        if(searchResult.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Appointment Found");
+            alert.setHeaderText("ERROR");
+            alert.setContentText("No Appointment Found");
+            alert.show();
+        }
+
+    }
+    private Appointment lookupAppointment(int appointmentID) throws SQLException {
+        Appointment searchResult = null;
+        for (Appointment a : AppointmentDB.queryAppointmentsDB()){
+            if (a.getAppointmentID() == appointmentID){
+                searchResult = a;
+            }
+        }
+        return searchResult;
+    }
+    private ObservableList<Appointment> lookupAppointment(String title) throws SQLException {
+        ObservableList<Appointment> searchResult = FXCollections.observableArrayList();
+        for (Appointment a : AppointmentDB.queryAppointmentsDB()){
+            if (a.getAppointmentTitle().contains(title)){
+                searchResult.add(a);
+            }
+        }
+        return searchResult;
     }
 
 }

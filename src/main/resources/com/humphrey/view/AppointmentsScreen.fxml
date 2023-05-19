@@ -162,6 +162,19 @@
                   <Font size="18.0" />
                </font>
             </RadioButton>
+            <TextField fx:id="searchBar" alignment="CENTER" onAction="#appointmentSearch" promptText="Enter Appointment to Search" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Appointment Search" GridPane.columnIndex="2" GridPane.columnSpan="2">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </Label>
             </children>
         </GridPane>
     </children>
